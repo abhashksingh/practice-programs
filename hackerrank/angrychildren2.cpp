@@ -13,8 +13,8 @@ int main() {
     cin>>N>>K;
     for(i=0;i<N;i++)
     {
-    	cin>>t;
-    	lis.push_back(t);
+     cin>>t;
+     lis.push_back(t);
     }
     sort(lis.begin(), lis.end());
     for(i=0;i+K-1<N;i++)
@@ -32,9 +32,9 @@ int main() {
     vector <long long> lis2;
     for(i=tstart;i<tstart+K;i++)
     {
-		lis2.push_back(lis[i]);
-	}
-	//cout<<"before segfault"<<endl;
+lis2.push_back(lis[i]);
+}
+//cout<<"before segfault"<<endl;
     //minP(lis2);
     cout<<minP(lis2)<<endl;
     return 0;
@@ -43,14 +43,14 @@ int main() {
 
 long long minP(vector<long long> lis)
 {
-	long long ret=0,size=lis.size(),i=0,j;
-	for(i=size-1;i>=0;i--)
-	{
-		//cout<<lis[i]<<endl;
-		for(j=i-1;j>=0;j--)
-		{
-			ret+=(lis[i]-lis[j]);
-		}
-	}
-	return ret;
+long long ret=0,size=lis.size(),i=0,j;
+for(i=size-1;i>=0;i--)
+{
+//cout<<lis[i]<<endl;
+for(j=i-1;j>=0;j--)
+{
+ret+=(lis[i]-lis[j]);
+}
+}
+return ret;
 }
