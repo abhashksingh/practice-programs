@@ -8,40 +8,40 @@ using namespace std;
 template<class T>
 class SegmentTree
 {
-	int *A,size;
+	long long *A,size;
 	public:
-	SegmentTree(int N)
+	SegmentTree(long long N)
 	{
-		int x = (int)(ceil(log2(N)))+1;
-		size = 2*(int)pow(2,x);
-		A = new int[size];
+		long long x = (long long)(ceil(log2(N)))+1;
+		size = 2*(long long)pow(2,x);
+		A = new long long[size];
 		memset(A,-1,sizeof(A));
 	}
-	void initialize(int node, int start,int end, T *array)
+	void initialize(long long node, long long start,long long end, T *array)
 	{
 		if (start==end)
 			A[node] = start;
 		else
 		{
-			int mid = (start+end)/2;
+			long long mid = (start+end)/2;
 			initialize(2*node,start,mid,array);
 			initialize(2*node+1,mid+1,end,array);
-			if (array[A[2*node]]<=array[A[2*node+1]])
+			if (array[A[2*node]]>=array[A[2*node+1]])
 				A[node] = A[2 * node];
 			else
 				A[node] = A[2 * node + 1];
 		}
 	}
-	int query(int node, int start,int end, int i, int j, T *array)
+	long long query(long long node, long long start,long long end, long long i, long long j, T *array)
 	{
-		int id1,id2;
+		long long id1,id2;
 		if (i>end || j<start)
 			return -1;
 
 		if (start>=i && end<=j)
 			return A[node];
 
-		int mid = (start+end)/2;
+		long long mid = (start+end)/2;
 		id1 = query(2*node,start,mid,i,j,array);
 		id2 = query(2*node+1,mid+1,end,i,j,array);
 
@@ -59,14 +59,14 @@ class SegmentTree
  
 int main()
 {
-	int i,j,N;
-	int A[1000];
+	long long i,j,N;
+	long long A[1000];
 	cin>>N;
 	for (i=0;i<N;i++)
 		cin>>A[i];
 
-	SegmentTree<int> s(N);
+	SegmentTree<long long> s(N);
 	s.initialize(1,0,N-1,A);
-	while (scanf("%d%d",&i,&j)!=EOF)
-		printf("%d\n",A[s.query(1,0,N-1,i-1,j-1,A)]);
+	while (scanf("%lld%lld",&i,&j)!=EOF)
+		printf("%lld\n",A[s.query(1,0,N-1,i-1,j-1,A)]);
 }
