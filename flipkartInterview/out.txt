@@ -1,0 +1,3 @@
+Addition of 1234567 and 999999 gives: 2234566
+Multiplication of 1235 and -4565 gives: -5637775
+Subtracting 2345 from -123456 gives -125801
