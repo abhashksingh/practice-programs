@@ -1,37 +1,53 @@
 #include <iostream>
+#include <stdio.h>
 #include <math.h>
 
 using namespace std;
 
+int len(long long n)
+{
+	int ctr=0;
+	while (n>0)
+	{
+		ctr=ctr+1;
+		n=n/10;
+	}
+return ctr;
+}
+ 
 int main()
 {
-	long long t,L,R,i,sum=0,c=1000000007,d1,d2,n,x;
-	cin>>t;
-	while(t--)
+	int T;
+	long long int L,R;
+	int len_L,len_R;
+	long long int sum,n,a,p;
+	scanf("%d",&T);
+
+	while(T--)
 	{
-		cin>>L>>R;
-		d1=floor(log10(L))+1;
-		d2=floor(log10(R))+1;
 		sum=0;
-		if(d1==d2)
+		scanf("%lld %lld",&L,&R);
+		len_L=len(L);
+		len_R=len(R);
+		if (len_L==len_R)
 		{
-			n=R-L;
-			sum=((L*(n+1))+(n*(n+1)/2))*d1;
+			n=R-L+1;
+			sum=(n*(2*L+n-1))/2;
+			sum=sum*len_L;
 		}
 		else
 		{
-			while(d1!=d2)
+			while (len_L!=len_R)
 			{
-				x=pow(10,d1)-1;
-				n=x-L;
-				sum+=(((((L*(n+1))%c)+((n*(n+1)/2))*d1)%c)%c);
-				d1++;
-				L=x+1;
+					p=pow(10,len_L);
+					n=p-L;
+					sum+=(n*(L+p-1)/2)*len_L;
+					L=p;
+					len_L=len_L+1;
 			}
-			n=R-L;
-			sum+=((((L*(n+1))+(n*(n+1)/2))*d1)%c);
+			n=R-L+1;
+			sum+=(n*(L+R)/2)*len_L;
 		}
-	cout<<(sum%c)<<endl;
+	printf("\n%lld\n",(sum)%1000000007);
 	}
-return 0;
 }

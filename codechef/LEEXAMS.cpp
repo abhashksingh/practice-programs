@@ -1,87 +1,65 @@
-#include <iostream>
+#include<bits/stdc++.h>
 
 using namespace std;
 
+int a[53];
+int b[53];
+double p[53];
+int comb[53];
+int co[20];
+
 int main()
 {
-	int test;
-	cin>>test;
-	while(test--)
+	int t;
+	scanf("%d",&t);
+	while(t--)
 	{
-		int n,i=0;
-		cin>>n;
-		if(n>16)
+		int n;
+		scanf("%d",&n);
+		for(int i=0;i<n;i++)
 		{
-			cout<<0<<endl;
+			scanf("%lf%d%d",&p[i],&a[i],&b[i]);
+			p[i]= p[i]/100.0;
 		}
+		double ans=0.0;
+		if(n>16)
+		printf("%.9f\n",ans);
 		else
 		{
-			bool *visited = new bool[17];
-			for(i=0;i<17;i++)
+			for(int i=0;i<(1<<n);i++)
 			{
-				visited[i]=false;
+				double res=1.0;
+				memset(comb,0,sizeof(comb));
+				memset(co,0,sizeof(co));
+				bool flag=false;
+				for(int j=0;j<n;j++)
+				{
+					if(i&(1<<j))
+					{
+						res *= p[j];
+						comb[j]=a[j];
+						co[a[j]]++;
+						if(co[a[j]]>1)
+						{
+							res=0.0;
+							break;
+						}
+					}
+					else
+					{
+						res *= (1.0-p[j]);
+						comb[j]=b[j];
+						co[b[j]]++;
+						if(co[b[j]]>1)
+						{
+							res=0;
+							break;
+						}
+					}
+				}
+				ans +=res;
 			}
-			int *A = new int[n];
-			int *B = new int[n];
-			float *P = new float[n];
-			for(i=0;i<n;i++)
-			{
-				cin>>P[i]>>A[i]>>B[i];
-				P[i]=P[i]/100;
-			}
-			float temp1=P[0],temp2=1-P[0];
-			visited[A[0]]=true;
-			for(i=1;i<n;i++)
-			{
-				if(!visited[A[i]]&&!visited[B[i]])
-				{
-					temp1=temp1*1.0;
-					visited[A[i]]=true;
-					visited[B[i]]=true;
-				}
-				else if(visited[A[i]]&&!visited[B[i]])
-				{
-					temp1=temp1*(1-P[i]);
-					visited[B[i]-1]=true;
-				}
-				else if(!visited[A[i]]&&visited[B[i]])
-				{
-					temp1=temp1*P[i];
-					visited[A[i]]=true;
-				}
-				else if(visited[A[i]]&&visited[B[i]])
-				{
-					temp1=0;
-					break;
-				}
-			}
-			for(i=0;i<17;i++)
-			{
-				visited[i]=false;
-			}
-			visited[B[0]]=true;
-			for(i=1;i<n;i++)
-			{
-				if(!visited[A[i]]&&!visited[B[i]])
-				{
-					temp2=temp2*1.0;
-				}
-				else if(visited[A[i]]&&!visited[B[i]])
-				{
-					temp2=temp2*(1-P[i]);
-				}
-				else if(!visited[A[i]]&&visited[B[i]])
-				{
-					temp2=temp2*P[i];
-				}
-				else if(visited[A[i]]&&visited[B[i]])
-				{
-					temp2=0;
-					break;
-				}
-			}
-			cout<<temp1+temp2<<endl;
+			printf("%.9f\n",ans);
 		}
 	}
-return 0;
-}
+} 

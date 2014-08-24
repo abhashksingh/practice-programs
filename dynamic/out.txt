@@ -1,1 +1,2 @@
-minimum number of jumps required is 3
+
+Minimum number of trials in worst case with 2 eggs and 36 floors is 8 

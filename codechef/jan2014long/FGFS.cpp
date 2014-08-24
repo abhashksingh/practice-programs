@@ -1,17 +1,22 @@
+#include <stdio.h>
 #include <iostream>
 #include <string>
 #include <algorithm>
 #include <stdio.h>
 #include <vector>
 #include <math.h>
+#include <stdlib.h>
+#include <cstdio>
+#include <string.h>
+#define get getchar_unlocked
 
 using namespace std;
 
 class preference
 {
 	public:
-	long long s,f,p;
-	preference (long long a,long long b,long long c)
+	long s,f,p;
+	preference (long a,long b,long c)
 	{
 		s=a;
 		f=b;
@@ -19,50 +24,73 @@ class preference
 	}
 };
 
-bool myfunction (preference i,preference j) { return (i.f<j.f); }
+inline long int INP( )
+{
+	int n = 0 , s = 1 ; char p = get( ) ;
+	if(p == '-') s = -1 ;
+	while((p < '0' || p > '9') && p != EOF && p != '-')
+	p = get( ) ;
+	if(p == '-') s=-1 , p=get( );
+	while(p >= '0' && p <= '9')
+	n = (n << 3) + (n << 1) + (p - '0'), p = get( ) ;
+	return n * s ;
+}
 
+inline int INP_int( )
+{
+	int n = 0 , s = 1 ; char p = get( ) ;
+	if(p == '-') s = -1 ;
+	while((p < '0' || p > '9') && p != EOF && p != '-')
+	p = get( ) ;
+	if(p == '-') s=-1 , p=get( );
+	while(p >= '0' && p <= '9')
+	n = (n << 3) + (n << 1) + (p - '0'), p = get( ) ;
+	return n * s ;
+}
+
+bool myfunction (preference a,preference b)
+{
+	if(a.p!=b.p)
+		return a.p<b.p;
+	else if(a.p==b.p)
+		return a.f<b.f;
+}
 
 int main()
 {
-	long long t,N,K,i;
-	long long si,fi,pi;
-	cin>>t;
+	long t,K,si,fi,pi;
+	int N,i;
+	scanf("%ld",&t);//cin>>t;
 	while(t--)
 	{
-		cin>>N>>K;
+		//scanf("%lld %lld",&N,&K);
+		N= INP_int();
+		K= INP();
+		vector <preference> prefs;
+		long res,j,k,l;
+		for(i=0;i<N;i++)
+		{
+			//scanf("%lld %lld %lld",&si,&fi,&pi);
+			si=INP();
+			fi=INP();
+			pi=INP();
+			preference pr(si,fi,pi);
+			prefs.push_back(pr);
+		}
+		sort(prefs.begin(),prefs.end(),myfunction);
+		long count=0,temp=0;
 		if(N>0)
+			count=1;
+		for(i=1;i<N;i++)
 		{
-			vector <preference> prefs[K];
-			long long sum,res,j,k,l;
-			for(i=0;i<N;i++)
+			if((prefs[i].p!=prefs[i-1].p) || (prefs[i].s>=prefs[i-1].f))
 			{
-				cin>>si>>fi>>pi;
-				preference pr(si,fi,pi);
-				prefs[pi-1].push_back(pr);
+				++count;
 			}
-			sum=0;
-			for(i=0;i<K;i++)
-			{
-				if(prefs[i].size()>0)
-				{
-					res=1;
-					sort(prefs[i].begin(),prefs[i].end(),myfunction);
-					for(j=1;j<prefs[i].size();j++)
-					{
-						if((prefs[i][j].s >= prefs[i][j-1].f))
-						{
-							res++;
-						}
-					}
-					sum=sum+res;
-				}
-			}
-			cout<<sum<<endl;
+			else
+			prefs[i].f=prefs[i-1].f;
 		}
-		else
-		{
-			cout<<0<<endl;
-		}
+		printf("%ld\n",count);//cout<<count<<endl;
 	}
-return 0;
+	return 0;
 }
